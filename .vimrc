@@ -15,6 +15,7 @@ Plug 'vim-pandoc/vim-pandoc' " Visible markdown in vim
 Plug 'vim-pandoc/vim-pandoc-syntax' " Visible markdown in vim
 Plug 'junegunn/limelight.vim' " paragraph isolation
 Plug 'junegunn/goyo.vim' " gui hide for writing prose
+Plug 'dense-analysis/ale' " linter, syntax checker
 
 call plug#end()
 
@@ -30,6 +31,25 @@ set shiftwidth=4
 set expandtab
 
 syntax on
+""
+"" Change escape key
+imap <C-L> <Esc>
+""
+
+"" leader key
+
+"disables space from moving right
+let mapleader=" "
+nnoremap <SPACE> <Nop>
+"remap space to \
+"map <Space> <leader>
+
+augroup FastEscape
+    autocmd!
+    au InsertEnter * set timeoutlen=0
+    au insertLeave * set timeoutlen=1000
+augroup END
+
 ""
 
 "" Vim auto completion
@@ -81,26 +101,19 @@ set undofile
 set undolevels=1000 undoreload=10000
 ""
 
-"" leader key
-
-"disables space from moving right
-nnoremap <SPACE> <Nop>
-"remap space to \
-map <Space> \
-
-""
 
 "" VimWiki Stuff
 let g:vimwiki_global_ext = 0
 let g:vimwiki_ext2syntax = {'.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown'}
 let g:vimwiki_list = [
-   \{'path': '~/Dropbox/VimWiki/', 'syntax':'markdown', 'ext': '.md'},
+   \{'path': '~/Dropbox/VimWiki', 'syntax':'markdown', 'ext': '.md'},
    \{'path': '~/Dropbox/VimWiki/Vim/vimwiki', 'syntax':'markdown', 'ext': '.md'},
    \{'path': '~/Dropbox/VimWiki/Vim/vim', 'syntax':'markdown', 'ext': '.md'},
-   \{'path': '~/Dropbox/VimWiki/Hacking/', 'syntax':'markdown', 'ext': '.md'},
+   \{'path': '~/Dropbox/VimWiki/Hacking', 'syntax':'markdown', 'ext': '.md'},
    \{'path': '~/Dropbox/VimWiki/Languages/python', 'syntax':'markdown', 'ext': '.md'},
    \{'path': '~/Dropbox/VimWiki/Languages/markdown', 'syntax':'markdown', 'ext': '.md'},
-   \{'path': '~/Dropbox/VimWiki/Linux/manjaro', 'syntax':'markdown', 'ext': '.md'}]
+   \{'path': '~/Dropbox/VimWiki/Linux/manjaro', 'syntax':'markdown', 'ext': '.md'},
+   \{'path': '~/Dropbox/Vimwiki/Misc', 'syntax':'markdown', 'ext': '.md'}]
 
 au BufRead,BufNewFile *.md set filetype=vimwiki
 autocmd BufRead,BufNewFIle *.wiki setlocal spell
@@ -125,3 +138,6 @@ nnoremap <leader>md :MarkdownPreview<CR>
 let g:mkdp_refresh_slow=1
 ""
 
+"" ALE stuff
+let g:airline#extensions#ale#enabled = 1
+""
